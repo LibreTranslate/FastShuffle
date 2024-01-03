@@ -1,5 +1,5 @@
 import pytest
-from removedup import file_shuffle
+from fastshuffle import file_shuffle
 import os
 
 def test_shuffle():
