@@ -1,0 +1,11 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "cmake>=3.12",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+test-command = "pytest {project}/tests"
+test-extras = ["test"]
+before-build = "rm -rf {project}/build"
