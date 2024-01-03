@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(rdup VERSION 1.0 LANGUAGES CXX)
+project(fastshuffle VERSION 1.0 LANGUAGES CXX)
 option(WITH_PYTHON "Build Python Bindings" OFF)
 
 if(NOT CMAKE_BUILD_TYPE)
