@@ -6,7 +6,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(fastmerge, m) {
+PYBIND11_MODULE(fastshuffle, m) {
     m.def("file_shuffle", &shuffle);
 
 #ifdef VERSION_INFO

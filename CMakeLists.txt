@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 if (WITH_PYTHON)
 add_subdirectory(vendor/pybind11)
 add_definitions("-DVERSION_INFO=${VERSION_INFO}")
-pybind11_add_module(fastshuffle fastshuffle.cpp)
+pybind11_add_module(fastshuffle fastshuffle.cpp shuffle.cpp)
 install(TARGETS fastshuffle LIBRARY DESTINATION lib)
 endif()
 
