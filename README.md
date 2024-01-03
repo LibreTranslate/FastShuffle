@@ -36,7 +36,7 @@ You can also use fastshuffle as a standalone Windows, macOS or Linux application
 
 ```
 mkdir build
-cd build && cmake .. && make -j4Remove
+cd build && cmake .. && make -j4
 ./shuffle source.txt target.txt
 ```
 
