@@ -9,7 +9,9 @@ mmap_handle_t mmap_open(const std::string &file){
         throw std::runtime_error("Unable to open " + file);
     }
 
-    mht.file_size = GetFileSize(mht.file_handle, NULL);
+    LARGE_INTEGER li;
+    GetFileSizeEx(mht.file_handle, &li);
+    mht.file_size = li.QuadPart;
     mht.file_mapping = CreateFileMapping(mht.file_handle, NULL, PAGE_READONLY, 0, 0, NULL);
     if (mht.file_mapping == NULL) {
         CloseHandle(mht.file_handle);
@@ -72,9 +74,6 @@ std::tuple<std::string, std::string> shuffle(const std::string &src, const std::
     mmap_handle_t smht = mmap_open(src);
     mmap_handle_t tmht = mmap_open(tgt);
 
-    std::ifstream tgt_is(tgt);
-    if (!tgt_is.is_open()) throw std::runtime_error("Cannot open " + tgt);
-
     std::string src_out = src + ".shuffled";
     std::string tgt_out = tgt + ".shuffled";
 
@@ -125,10 +124,10 @@ std::tuple<std::string, std::string> shuffle(const std::string &src, const std::
 
     // std::cout << offsets.size() << std::endl << std::endl;
     for (size_t i = 0; i < offsets.size(); i++){
-        std::string_view slv(offsets[i].src_start, offsets[i].src_end - offsets[i].src_start);
-        std::string_view tlv(offsets[i].tgt_start, offsets[i].tgt_end - offsets[i].tgt_start);
-        src_of << slv << "\n";
-        tgt_of << tlv << "\n";
+        src_of.write(offsets[i].src_start, offsets[i].src_end - offsets[i].src_start);
+        src_of.write("\n", 1);
+        tgt_of.write(offsets[i].tgt_start, offsets[i].tgt_end - offsets[i].tgt_start);
+        tgt_of.write("\n", 1);
     }
 
     src_of.close();

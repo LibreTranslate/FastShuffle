@@ -5,7 +5,6 @@
 #include <tuple>
 #include <variant>
 #include <string>
-#include <string_view>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -25,7 +24,7 @@ typedef struct{
     #if defined(_WIN32) || defined(_WIN64)
     HANDLE file_handle;
     HANDLE file_mapping;
-    DWORD file_size;
+    SIZE_T file_size;
     #else
     int fd;
     off_t file_size;
