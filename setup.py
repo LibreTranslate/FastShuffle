@@ -132,7 +132,7 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     ext_modules=[CMakeExtension("cmake_example")],
-    extras_require={"test": ["pytest>=6.0"]},
+    # extras_require={"test": ["pytest>=6.0"]},
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     python_requires=">=3.7",

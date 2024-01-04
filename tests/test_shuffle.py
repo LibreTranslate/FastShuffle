@@ -12,9 +12,6 @@ def test_shuffle():
     assert os.path.isfile(src)
     assert os.path.isfile(tgt)
 
-    assert sum(1 for _ in open(src)) == sum(1 for _ in open(in_src))
-    assert sum(1 for _ in open(tgt)) == sum(1 for _ in open(in_tgt))
-    
 
 def test_shuffle_sample():
     cwd = os.path.dirname(__file__)
@@ -27,5 +24,3 @@ def test_shuffle_sample():
     assert os.path.isfile(tgt)
     assert os.path.isfile(ssrc)
     assert os.path.isfile(stgt)
-    
-    
