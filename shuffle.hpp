@@ -43,3 +43,4 @@ mmap_handle_t mmap_open(const std::string &file);
 void mmap_close(mmap_handle_t mht);
 size_t line_count(mmap_handle_t mht);
 std::tuple<std::string, std::string> shuffle(const std::string &src, const std::string &tgt);
+std::tuple<std::string, std::string, std::string, std::string> shuffle_sample(const std::string &src, const std::string &tgt, long long sample);

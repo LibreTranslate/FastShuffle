@@ -8,6 +8,8 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(fastshuffle, m) {
     m.def("file_shuffle", &shuffle);
+    m.def("file_shuffle_sample", &shuffle_sample);
+
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);

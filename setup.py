@@ -124,7 +124,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name="fastshuffle",
-    version="1.0.0",
+    version="1.0.1",
     author="Piero Toffanin",
     author_email="pt@masseranolabs.com",
     url="https://github.com/LibreTranslate/FastShuffle",

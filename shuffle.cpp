@@ -71,11 +71,19 @@ size_t line_count(mmap_handle_t mht){
 }
 
 std::tuple<std::string, std::string> shuffle(const std::string &src, const std::string &tgt){
+    auto res = shuffle_sample(src, tgt, 0);
+    return std::make_tuple(std::get<0>(res), std::get<1>(res));
+}
+
+std::tuple<std::string, std::string, std::string, std::string> shuffle_sample(const std::string &src, const std::string &tgt, long long sample){
     mmap_handle_t smht = mmap_open(src);
     mmap_handle_t tmht = mmap_open(tgt);
 
     std::string src_out = src + ".shuffled";
     std::string tgt_out = tgt + ".shuffled";
+
+    std::string src_sample_out = src_out + ".sample";
+    std::string tgt_sample_out = tgt_out + ".sample";
 
     // size_t src_count = line_count(smht);
 
@@ -122,12 +130,38 @@ std::tuple<std::string, std::string> shuffle(const std::string &src, const std::
     std::ofstream src_of(src_out, std::ios::trunc);
     std::ofstream tgt_of(tgt_out, std::ios::trunc);
 
+    std::ofstream *src_sample_of = nullptr;
+    std::ofstream *tgt_sample_of = nullptr;
+    
+    if (sample > 0){
+        src_sample_of = new std::ofstream(src_sample_out, std::ios::trunc);
+        tgt_sample_of = new std::ofstream(tgt_sample_out, std::ios::trunc);
+    }
+
     // std::cout << offsets.size() << std::endl << std::endl;
     for (size_t i = 0; i < offsets.size(); i++){
-        src_of.write(offsets[i].src_start, offsets[i].src_end - offsets[i].src_start);
-        src_of.write("\n", 1);
-        tgt_of.write(offsets[i].tgt_start, offsets[i].tgt_end - offsets[i].tgt_start);
-        tgt_of.write("\n", 1);
+        if (sample > 0 && i < sample){
+            src_sample_of->write(offsets[i].src_start, offsets[i].src_end - offsets[i].src_start);
+            src_sample_of->write("\n", 1);
+            tgt_sample_of->write(offsets[i].tgt_start, offsets[i].tgt_end - offsets[i].tgt_start);
+            tgt_sample_of->write("\n", 1);
+        }else{
+            src_of.write(offsets[i].src_start, offsets[i].src_end - offsets[i].src_start);
+            src_of.write("\n", 1);
+            tgt_of.write(offsets[i].tgt_start, offsets[i].tgt_end - offsets[i].tgt_start);
+            tgt_of.write("\n", 1);
+        }
+    }
+
+    if (tgt_sample_of != nullptr){ 
+        tgt_sample_of->close();
+        delete tgt_sample_of;
+        tgt_sample_of = nullptr;
+    }
+    if (src_sample_of != nullptr){ 
+        src_sample_of->close();
+        delete src_sample_of;
+        src_sample_of = nullptr;
     }
 
     src_of.close();
@@ -136,5 +170,5 @@ std::tuple<std::string, std::string> shuffle(const std::string &src, const std::
     mmap_close(smht);
     mmap_close(tmht);
 
-    return std::make_tuple(src_out, tgt_out);
+    return std::make_tuple(src_out, tgt_out, src_sample_out, tgt_sample_out);
 }

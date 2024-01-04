@@ -7,6 +7,7 @@ int main(int argc, char **argv) {
     options.add_options()
         ("s,src", "Input source corpus", cxxopts::value<std::string>())
         ("t,tgt", "Input target corpus", cxxopts::value<std::string>())
+        ("sample", "Also sample these many sentences", cxxopts::value<long long>()->default_value("0"))
         ("h,help", "Print usage")
         ;
     options.parse_positional({ "src", "tgt" });
@@ -30,10 +31,19 @@ int main(int argc, char **argv) {
     try {
         const auto source = result["src"].as<std::string>();
         const auto target = result["tgt"].as<std::string>();
+        const auto sample = result["sample"].as<long long>();
         
-        auto result = shuffle(source, target);
-        std::cout << "W\t" << std::get<0>(result) << std::endl;
-        std::cout << "W\t" << std::get<1>(result) << std::endl;
+        if (sample > 0){
+            auto result = shuffle_sample(source, target, sample);
+            std::cout << "W\t" << std::get<0>(result) << std::endl;
+            std::cout << "W\t" << std::get<1>(result) << std::endl;
+            std::cout << "W\t" << std::get<2>(result) << std::endl;
+            std::cout << "W\t" << std::get<3>(result) << std::endl;
+        }else{
+            auto result = shuffle(source, target);
+            std::cout << "W\t" << std::get<0>(result) << std::endl;
+            std::cout << "W\t" << std::get<1>(result) << std::endl;
+        }
     }catch (std::exception &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return EXIT_FAILURE;

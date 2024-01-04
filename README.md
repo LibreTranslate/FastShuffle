@@ -18,6 +18,16 @@ print(src, tgt)
 # source.txt.shuffled target.txt.shuffled
 ```
 
+You can also simultaneously sample/isolate a certain number of sentences from the dataset (which are then removed from the shuffled result)
+
+```
+from fastshuffle import file_shuffle_sample
+
+src, tgt, src_sample, tgt_sample = file_shuffle("source.txt", "target.txt", 5) # Sample 5 sentences
+print(src, tgt, src_sample, tgt_sample)
+# source.txt.shuffled target.txt.shuffled source.txt.shuffled.sample target.txt.shuffled.sample
+```
+
 ## Notes
 
 Source and target must have the same number of lines. No validation checks are made.
